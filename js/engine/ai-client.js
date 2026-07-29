@@ -35,6 +35,8 @@ function cleanResponse(text) {
 }
 
 export async function checkAIProxy() {
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if (!isLocal) return false;
   try {
     const settings = store.getSettings();
     const res = await fetch(`${PROXY_URL}/health`, { signal: AbortSignal.timeout(3000) });

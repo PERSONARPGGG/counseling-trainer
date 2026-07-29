@@ -477,18 +477,13 @@ function startSession(container) {
       if (STATE.aiMode) { STATE.aiMode = false; updateAIIndicator(); showToast('Mock 모드'); return; }
       aiToggleBtn.textContent = '⏳ 확인중...';
       aiToggleBtn.disabled = true;
-      try {
-        const ok = await checkAIProxy();
-        if (!ok) { showToast('⚠️ 프록시 필요 (proxy-server.py)'); aiToggleBtn.textContent = '🟢 AI 켜기'; aiToggleBtn.disabled = false; return; }
-        const s = store.getSettings();
-        if (!s.api_key) { showToast('⚠️ 설정에서 API 키 입력 필요'); aiToggleBtn.textContent = '🟢 AI 켜기'; aiToggleBtn.disabled = false; return; }
-        STATE.aiMode = true;
-        updateAIIndicator();
-        showToast('✅ AI 모드');
-      } catch (e) {
-        showToast('⚠️ AI 연결 실패');
-        aiToggleBtn.textContent = '🟢 AI 켜기';
-      }
+      const s = store.getSettings();
+      if (!s.api_key) { showToast('⚠️ 설정에서 API 키 입력 필요'); aiToggleBtn.textContent = '🟢 AI 켜기'; aiToggleBtn.disabled = false; return; }
+      const ok = await checkAIProxy().catch(() => false);
+      if (!ok) { showToast('⚠️ 프록시 미실행 — Mock 모드로 대체됩니다'); aiToggleBtn.textContent = '🟢 AI 켜기'; aiToggleBtn.disabled = false; return; }
+      STATE.aiMode = true;
+      updateAIIndicator();
+      showToast('✅ AI 모드');
       aiToggleBtn.disabled = false;
     };
   }

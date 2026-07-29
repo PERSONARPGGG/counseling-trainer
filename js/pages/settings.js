@@ -99,9 +99,10 @@ export function renderSettings(container) {
 
       <hr>
 
-      <div class="card-title">🔌 AI 연결</div>
+      <div class="card-title">🔌 AI 연결 (선택사항)</div>
+      <div class="form-help" style="margin-top:-6px;margin-bottom:10px">Mock 모드는 서버 없이 즉시 사용 가능합니다. AI 모드는 프록시 서버와 API 키가 필요합니다.</div>
       <div class="ai-check-row">
-        <button class="btn-primary btn-sm" id="check-ai-btn">🤖 연결 확인</button>
+        <button class="btn-primary btn-sm" id="check-ai-btn">🔑 API 키 확인</button>
         <span id="ai-status-text" style="font-size:14px;color:var(--text-light)">확인되지 않음</span>
       </div>
 
@@ -188,16 +189,23 @@ export function renderSettings(container) {
     const btn = $('#check-ai-btn');
     const status = $('#ai-status-text');
     btn.disabled = true; btn.textContent = '⏳ 확인 중...';
-    status.textContent = '연결 확인중...'; status.style.color = 'var(--text-light)';
-    try {
-      const available = await checkAIProxy();
-      if (available) { status.textContent = '✅ 연결됨'; status.style.color = 'var(--success)'; showToast('AI 서버 정상 응답'); }
-      else {
-        if (!store.getSettings().api_key) { status.textContent = '⚠️ API 키 필요'; status.style.color = '#ea580c'; }
-        else { status.textContent = '⚠️ 프록시 연결 불가'; status.style.color = '#dc2626'; showToast('proxy-server.py 실행 필요'); }
-      }
-    } catch (e) { status.textContent = '❌ 오류'; status.style.color = '#dc2626'; }
-    btn.disabled = false; btn.textContent = '🤖 연결 확인';
+    status.textContent = '확인중...'; status.style.color = 'var(--text-light)';
+    const key = store.getSettings().api_key;
+    if (!key) {
+      status.textContent = '⚠️ API 키를 입력해주세요'; status.style.color = '#ea580c';
+      btn.disabled = false; btn.textContent = '🔑 API 키 확인';
+      return;
+    }
+    status.textContent = '✅ API 키 저장됨'; status.style.color = 'var(--success)';
+    const proxyOk = await checkAIProxy().catch(() => false);
+    if (proxyOk) {
+      status.textContent = '✅ AI 연결 완료'; status.style.color = 'var(--success)';
+      showToast('AI 서버 정상 응답');
+    } else {
+      status.textContent = '✅ API 키 저장됨 · 프록시 미연결'; status.style.color = 'var(--success)';
+      showToast('프록시 미실행 — Mock 모드로 사용 가능');
+    }
+    btn.disabled = false; btn.textContent = '🔑 API 키 확인';
   };
 
   $('#export-btn').onclick = () => {
