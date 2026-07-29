@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check
+        run: |
+          sudo apt-get install -y jq
+          echo "=== Checking HTML ==="
+          python -c "
+          import os, sys
+          ok = True
+          for root, dirs, files in os.walk('counseling-simulator'):
+              for fn in files:
+                  if fn.endswith(('.js', '.py', '.css')) or fn == 'index.html':
+                      fp = os.path.join(root, fn)
+                      ct = open(fp, 'r', encoding='utf-8').read()
+                      b = ct.count('{') - ct.count('}')
+                      p = ct.count('(') - ct.count(')')
+                      s = ct.count('[') - ct.count(']')
+                      if not (b == 0 and p == 0 and s == 0):
+                          print(f'FAIL: {fp} braces={b} parens={p} brackets={s}')
+                          ok = False
+          sys.exit(0 if ok else 1)
+          "

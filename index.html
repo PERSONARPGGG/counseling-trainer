@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#EDE6DE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="상담 트레이닝">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235B9F6B'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235B9F6B'/%3E%3Ctext x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E">
+<title>상담 트레이닝</title>
+<meta name="description" content="AI 가상 내담자와 상담 연습을 할 수 있는 시뮬레이터입니다.">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div id="splash-overlay" role="status" aria-label="앱 로딩 중">
+  <div class="splash-content">
+    <div class="splash-icon" aria-hidden="true">🫂</div>
+    <h1 class="splash-title">상담 트레이닝</h1>
+    <p class="splash-sub">AI 가상 내담자와 함께하는 상담 연습</p>
+    <div class="splash-loader" aria-hidden="true"><span></span><span></span><span></span></div>
+  </div>
+</div>
+<div id="app">
+  <nav id="top-nav" aria-label="메인 내비게이션">
+    <button class="nav-btn" data-route="dashboard" id="nav-dashboard" aria-current="page">🏠 대시보드</button>
+    <button class="nav-btn" data-route="session" id="nav-session">💬 세션</button>
+    <button class="nav-btn" data-route="settings" id="nav-settings">⚙️ 설정</button>
+  </nav>
+  <main id="page-container" role="main"></main>
+</div>
+<div id="a2hs-banner" class="a2hs-banner" style="display:none" role="alert" aria-live="polite">
+  <span aria-hidden="true">📱</span>
+  <span>앱을 바탕화면에 추가하세요!</span>
+  <button id="a2hs-close" class="btn-icon btn-sm" style="background:transparent;border:none;color:var(--text-light);font-size:18px" aria-label="닫기">✕</button>
+</div>
+<div id="onboarding-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="온보딩">
+  <div class="overlay-box">
+    <h2>환영합니다! 👋</h2>
+    <div id="onboarding-step">
+      <p id="onboarding-text"></p>
+      <button id="onboarding-btn" class="btn-primary"></button>
+    </div>
+    <div class="onboarding-dots" id="onboarding-dots" aria-hidden="true"></div>
+  </div>
+</div>
+<div id="toast-container" role="alert" aria-live="polite" aria-relevant="additions"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

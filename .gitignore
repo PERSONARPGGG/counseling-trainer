@@ -1,0 +1,60 @@
+# --- Secrets & Config ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+
+# --- Node ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# --- Editor ---
+.idea/
+.vscode/
+*.sublime-*
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+
+# --- Build / Dist ---
+dist/
+build/
+out/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Test files (not for deployment) ---
+final_test.py
+unit_test.js
+
+# --- Project specific ---
+# proxy-server.py is intentionally tracked (no secrets committed)
+# API keys come from env vars or browser localStorage only

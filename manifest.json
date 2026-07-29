@@ -1,0 +1,22 @@
+{
+  "name": "상담 트레이닝",
+  "short_name": "상담트레이닝",
+  "description": "AI 가상 내담자와 함께하는 상담 연습 도구",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EDE6DE",
+  "theme_color": "#EDE6DE",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%235B9F6B'/%3E%3Ctext x='96' y='135' text-anchor='middle' fill='white' font-size='120' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%235B9F6B'/%3E%3Ctext x='256' y='360' text-anchor='middle' fill='white' font-size='320' font-weight='bold' font-family='sans-serif'%3EC%3C/text%3E%3Csvg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

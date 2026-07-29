@@ -1,0 +1,29 @@
+# ============================================
+# 상담 트레이닝 시뮬레이터 — Docker
+# ============================================
+# Build:   docker compose build
+# Run:     docker compose up
+# URL:     http://localhost:8420
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8420:8420"
+    depends_on:
+      - proxy
+    restart: unless-stopped
+
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - "8421:8421"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - ALLOWED_ORIGINS=http://localhost:8420
+      - SITE_URL=http://localhost:8420
+    restart: unless-stopped
