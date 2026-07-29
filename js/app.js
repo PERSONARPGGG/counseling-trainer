@@ -28,7 +28,10 @@ function init() {
   if (splash) {
     setTimeout(() => {
       splash.classList.add('splash-hide');
-      setTimeout(() => { splash.style.display = 'none'; }, 500);
+      setTimeout(() => {
+        splash.style.display = 'none';
+        document.dispatchEvent(new Event('splash-done'));
+      }, 500);
     }, 1500);
   }
 

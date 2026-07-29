@@ -37,6 +37,20 @@
   <span>앱을 바탕화면에 추가하세요!</span>
   <button id="a2hs-close" class="btn-icon btn-sm" style="background:transparent;border:none;color:var(--text-light);font-size:18px" aria-label="닫기">✕</button>
 </div>
+<!-- Non-module fallback: hides splash even if ES modules are blocked (file:// etc.) -->
+<script>
+(function(){
+  var splash = document.getElementById('splash-overlay');
+  if (!splash) return;
+  // Fallback timer: auto-hide splash after 4s if main module didn't do it
+  var tid = setTimeout(function(){
+    splash.classList.add('splash-hide');
+    setTimeout(function(){ splash.style.display = 'none'; }, 500);
+  }, 4000);
+  // Listen for module-loaded signal from app.js
+  document.addEventListener('splash-done', function(){ clearTimeout(tid); });
+})();
+</script>
 <div id="onboarding-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="온보딩">
   <div class="overlay-box">
     <h2>환영합니다! 👋</h2>
