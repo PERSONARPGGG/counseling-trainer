@@ -65,9 +65,10 @@ export function confirmDialog(msg) {
 
 export function debounce(fn, ms = 300) {
   let timer;
-  return (...args) => {
+  return function(...args) {
     clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), ms);
+    const ctx = this;
+    timer = setTimeout(() => fn.apply(ctx, args), ms);
   };
 }
 
