@@ -88,11 +88,15 @@ function showMcqOptions(container, options) {
     btn.style.cssText = 'font-size:13px;padding:5px 10px;background:var(--bg-warm);border:1px solid var(--border-light);border-radius:16px;flex:1;min-width:80px;max-width:48%';
     btn.onclick = () => {
       const input = $('#chat-input');
-      if (input) { input.value = o; sendMessage(); }
+      if (input) input.value = o;
+      const sb = $('#send-btn');
+      if (sb) sb.click();
     };
     bar.appendChild(btn);
   });
-  container.insertBefore(bar, container.querySelector('.chat-input-area'));
+  const ref = container.querySelector('.chat-input-area');
+  if (!ref || !container.contains(ref)) return;
+  container.insertBefore(bar, ref);
 }
 
 function showScenarioSelect(container) {

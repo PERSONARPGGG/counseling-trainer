@@ -100,7 +100,7 @@ export function renderSettings(container) {
       <hr>
 
       <div class="card-title">🔌 AI 연결 (선택사항)</div>
-      <div class="form-help" style="margin-top:-6px;margin-bottom:10px">Mock 모드는 서버 없이 즉시 사용 가능합니다. AI 모드는 프록시 서버와 API 키가 필요합니다.</div>
+      <div class="form-help" style="margin-top:-6px;margin-bottom:10px">Mock 모드는 서버 없이 즉시 사용 가능합니다. AI 모드는 <code>proxy-server.py</code> 실행 필수 (<code>python proxy-server.py</code>). GitHub Pages에서는 AI 모드를 사용할 수 없습니다.</div>
       <div class="ai-check-row">
         <button class="btn-primary btn-sm" id="check-ai-btn">🔑 API 키 확인</button>
         <span id="ai-status-text" style="font-size:14px;color:var(--text-light)">확인되지 않음</span>
@@ -146,11 +146,38 @@ export function renderSettings(container) {
       if (key === 'warm_mode') document.body.classList.toggle('warm-mode', this.checked);
     };
   }
-  bindToggle('#ai-mode-toggle', 'ai_mode');
   bindToggle('#dark-mode-toggle', 'dark_mode');
   bindToggle('#warm-mode-toggle', 'warm_mode');
   bindToggle('#auto-save-toggle', 'auto_save');
   bindToggle('#sound-toggle', 'sound_enabled');
+
+  /* --- AI mode toggle with connectivity check --- */
+  const aiToggle = $('#ai-mode-toggle');
+  if (aiToggle) {
+    aiToggle.onchange = async function() {
+      const s = store.getSettings();
+      s.ai_mode = this.checked;
+      store.saveSettings(s);
+      const modelGroup = $('#model-select-group');
+      if (modelGroup) modelGroup.style.display = this.checked ? '' : 'none';
+      if (!this.checked) return;
+      const key = s.api_key;
+      if (!key) { showToast('⚠️ 먼저 API 키를 입력해주세요'); return; }
+      const status = $('#ai-status-text');
+      const btn = $('#check-ai-btn');
+      if (status) status.textContent = '🔌 프록시 확인중...';
+      if (btn) btn.disabled = true;
+      const ok = await checkAIProxy().catch(() => false);
+      if (ok) {
+        if (status) { status.textContent = '✅ AI 연결 완료'; status.style.color = 'var(--success)'; }
+        showToast('✅ AI 모드 활성화');
+      } else {
+        if (status) { status.textContent = '✅ API 키 저장됨 · 프록시 미연결 (local에서만 AI)'; status.style.color = 'var(--success)'; }
+        showToast('⚠️ 프록시 미실행 — Mock 모드로 사용');
+      }
+      if (btn) btn.disabled = false;
+    };
+  }
 
   $('#model-select').onchange = function() {
     const s = store.getSettings();
