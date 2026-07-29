@@ -58,3 +58,5 @@ unit_test.js
 # --- Project specific ---
 # proxy-server.py is intentionally tracked (no secrets committed)
 # API keys come from env vars or browser localStorage only
+
+.vercel
